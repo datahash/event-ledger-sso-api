@@ -6,6 +6,7 @@ use Ellaisys\Cognito\AwsCognitoClaim;
 use Ellaisys\Cognito\Auth\AuthenticatesUsers as CognitoAuthenticatesUsers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -31,6 +32,25 @@ class AuthController extends Controller
             } else {
                 return response()->json(['status' => 'error', 'message' => $claim], 400);
             }
+        }
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function getRemoteUser()
+    {
+        try {
+            $user =  auth()->guard('api')->user();
+            return response()->json(['status' => 'success', 'message' => $user], 200);
+        } catch (NoLocalUserException $e) {
+            $response = $this->createLocalUser($credentials);
+            return response()->json(['status' => 'error', 'message' => $response], 400);
+        } catch (Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e], 400);
         }
     }
 }
