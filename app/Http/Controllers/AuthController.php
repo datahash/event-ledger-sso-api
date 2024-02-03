@@ -6,6 +6,7 @@ use Ellaisys\Cognito\AwsCognitoClaim;
 use Ellaisys\Cognito\Auth\AuthenticatesUsers as CognitoAuthenticatesUsers;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
+use App\Http\Requests\AuthLoginRequest;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -18,7 +19,7 @@ class AuthController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function login(\Illuminate\Http\Request $request)
+    public function login(AuthLoginRequest $request)
     {
         $collection = collect($request->all());
 
