@@ -1,0 +1,92 @@
+name: Build Event API and push to ECR
+
+# Controls when the workflow will run
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment (dev or prod)"
+        type: string
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment }}
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Directory Permissions
+        run: chmod -R 777 ./
+
+      - name: Configure AWS credentials for DEV account
+        if: ${{ github.event.inputs.environment == 'dev' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.DEV_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.SYDNEY_AWS_REGION }}
+
+      - name: Configure AWS credentials for PROD account
+        if: ${{ github.event.inputs.environment == 'prod' }}
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.SYDNEY_AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: datahash-event-api
+          IMAGE_TAG: latest
+        run: |
+          docker build --build-arg BUILD_ENV="$ENVIRONMENT" -t datahash-event-api .
+          docker tag datahash-event-api:latest $ECR_REGISTRY/datahash-event-api:$IMAGE_TAG
+          docker push $ECR_REGISTRY/datahash-event-api:$IMAGE_TAG
+          echo "setting output values"
+          echo "{api-image}={$ECR_REGISTRY/datahash-event-api:$IMAGE_TAG}" >> $GITHUB_OUTPUT
+
+      # Runs a single command using the runners shell
+      - name: Print the image name
+        run: |
+          echo The image is:
+          echo ${{ steps.build-image.outputs.api-image }}
+
+#      - name: Download task definition
+#        run: |
+#          aws ecs describe-task-definition --task-definition ${{ secrets.ECS_CONTAINER_DEFINITION }} \
+#          --query taskDefinition > task-definition.json
+#
+#      - name: Fill in the new app image ID in the Amazon ECS task definition
+#        id: app-task-def
+#        uses: aws-actions/amazon-ecs-render-task-definition@v1
+#        with:
+#          task-definition: task-definition.json
+#          container-name: ${{ secrets.ECS_APP_CONTAINER_NAME }}
+#          image: ${{ steps.build-image.outputs.appimage }}
+#
+#      - name: Fill in the new nginx image ID in the Amazon ECS task definition
+#        id: web-task-def
+#        uses: aws-actions/amazon-ecs-render-task-definition@v1
+#        with:
+#          task-definition: ${{ steps.app-task-def.outputs.task-definition }}
+#          container-name: ${{ secrets.ECS_NGINX_CONTAINER_NAME }}
+#          image: ${{ steps.build-image.outputs.webimage }}
+#
+#      - name: Deploy Amazon ECS task definition
+#        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+#        with:
+#          task-definition: ${{ steps.web-task-def.outputs.task-definition }}
+#          service: testserviceelb
+#          cluster: testelb
+#          wait-for-service-stability: true
