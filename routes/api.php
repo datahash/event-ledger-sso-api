@@ -20,3 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
+
+Route::prefix('user')->group(function () {
+    Route::post('login', [App\Http\Controllers\AuthController::class, 'login']);
+
+    Route::group(['middleware' => 'aws-cognito'], function() {
+
+    });
+});

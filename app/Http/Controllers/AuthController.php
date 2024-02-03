@@ -20,11 +20,12 @@ class AuthController extends Controller
      */
     public function login(\Illuminate\Http\Request $request)
     {
-        //Convert request to collection
+        // Convert request to collection
         $collection = collect($request->all());
 
-        //Authenticate with Cognito Package Trait (with 'api' as the auth guard)
+        // Authenticate with Cognito Package Trait (with 'api' as the auth guard)
         if ($claim = $this->attemptLogin($collection, 'api', 'username', 'password', true)) {
+
             if ($claim instanceof AwsCognitoClaim) {
                 return $claim->getData();
             } else {
