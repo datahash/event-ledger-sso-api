@@ -29,7 +29,7 @@ class OrganisationController extends Controller
         try {
             $data = Organisation::where('account_id', $this->user->account_id)->get();
 
-            return ResponseHelper::success('All organisations.', $data);
+            return ResponseHelper::success('All organisations', $data);
         }
         catch(\Exception $e) {
 
@@ -47,7 +47,7 @@ class OrganisationController extends Controller
         try {
             $organisation = Organisation::create($data);
 
-            return ResponseHelper::success('Success. Organisation created.', $organisation);
+            return ResponseHelper::success('Organisation created', $organisation);
         }
         catch(\Exception $e) {
 
