@@ -1,4 +1,4 @@
-FROM php:8.0-apache
+FROM php:8.2-apache
 
 ENV APP_HOME /var/www/html
 ENV APP_DOCUMENT_ROOT /var/www/html/public
@@ -6,12 +6,12 @@ ENV USERNAME=www-data
 ARG BUILD_ENV
 
 RUN apt-get update
+RUN apt-get -qq -y install curl
+RUN apt-get -qq -y install git-all
 
-RUN apt-get install -y \
+RUN apt-get -qq install -y \
     procps \
-    git \
     zip \
-    curl \
     sudo \
     unzip \
     nano \
