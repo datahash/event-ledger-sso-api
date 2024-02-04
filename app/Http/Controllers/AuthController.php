@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Ellaisys\Cognito\AwsCognitoClaim;
 use Ellaisys\Cognito\Auth\AuthenticatesUsers as CognitoAuthenticatesUsers;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
 use App\Http\Requests\AuthLoginRequest;
-use App\Models\User;
 
 class AuthController extends Controller
 {

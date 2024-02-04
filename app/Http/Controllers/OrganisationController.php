@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
+use App\Models\Organisation;
 use Illuminate\Http\Request;
-use App\Http\Requests\AccountStoreRequest;
+use App\Http\Requests\OrganisationStoreRequest;
 use App\Helpers\ResponseHelper;
-use Illuminate\Support\Str;
 
-class AccountController extends Controller
+class OrganisationController extends Controller
 {
     /**
      * @var
@@ -28,9 +27,9 @@ class AccountController extends Controller
     public function index()
     {
         try {
-            $data = Account::where('id', $this->user->account_id)->get();
+            $data = Organisation::where('account_id', $this->user->account_id)->get();
 
-            return ResponseHelper::success('Your account', $data);
+            return ResponseHelper::success('All organisations.', $data);
         }
         catch(\Exception $e) {
 
@@ -41,16 +40,14 @@ class AccountController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AccountStoreRequest $request)
+    public function store(OrganisationStoreRequest $request)
     {
         $data = $request->validated();
 
-        $data->uuid = Str::uuid()->toString();
-
         try {
-            $account = Account::create($data);
+            $organisation = Organisation::create($data);
 
-            return ResponseHelper::success('Account created', $account);
+            return ResponseHelper::success('Success. Organisation created.', $organisation);
         }
         catch(\Exception $e) {
 
@@ -61,7 +58,7 @@ class AccountController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Account $account)
+    public function edit(Organisation $organisation)
     {
         //
     }
@@ -69,7 +66,7 @@ class AccountController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Account $account)
+    public function update(Request $request, Organisation $organisation)
     {
         //
     }
@@ -77,7 +74,7 @@ class AccountController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Account $account)
+    public function destroy(Organisation $organisation)
     {
         //
     }
