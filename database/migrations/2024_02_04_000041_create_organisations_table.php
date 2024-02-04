@@ -30,8 +30,6 @@ return new class extends Migration
             $table->string('delivery_city')->nullable();
             $table->string('delivery_state')->nullable();
             $table->string('delivery_postcode')->nullable();
-            $table->unsignedBigInteger('organisation_type_id')->nullable();
-            $table->unsignedBigInteger('organisation_role_id');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('created_by');
         });

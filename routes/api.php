@@ -26,3 +26,8 @@ Route::prefix('user')->group(function () {
         Route::get('profile', [App\Http\Controllers\AuthController::class, 'profile']);
     });
 });
+
+Route::group(['middleware' => 'aws-cognito'], function() {
+     Route::get('account', [App\Http\Controllers\AccountController::class, 'index']);
+     Route::get('organisation', [App\Http\Controllers\OrganisationController::class, 'index']);
+});

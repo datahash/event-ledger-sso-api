@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('organisation_id')->nullable();
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('user_role_id');
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

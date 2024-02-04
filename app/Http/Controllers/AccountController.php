@@ -28,7 +28,7 @@ class AccountController extends Controller
     public function index()
     {
         try {
-            $data = Account::where('id', $this->user->account_id)->get();
+            $data = Account::where('id', $this->user->account_id)->first();
 
             return ResponseHelper::success('Your account', $data);
         }
