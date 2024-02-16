@@ -25,7 +25,45 @@ class Event extends Model
         'reference',
         'topic_id',
         'transaction_id',
-        'consensus_timestamp_seconds',
-        'consensus_timestamp_nanos'
+        'consensus_timestamp'
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'pivot'
+    ];
+
+    /**
+     * Get source events.
+     */
+    public function source() {
+        return $this->belongsToMany(Event::class, 'event_parent', 'event_id', 'parent_event_id');
+    }
+
+    /**
+     * Get events and children .
+     */
+    public function children() {
+        return $this->belongsToMany(Event::class, 'event_parent', 'event_id', 'parent_event_id')->with('children');
+    }
+
+    /**
+     * Get account for this event.
+     */
+    public function account()
+    {
+        return $this->belongsTo(Account::class)->select(['uuid', 'name']);
+    }
+
+    /**
+     * Get organisation for this event.
+     */
+    public function organisation()
+    {
+        return $this->belongsTo(Organisation::class)->select(['id', 'name']);
+    }
 }
