@@ -4,9 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Helpers\ResponseHelper;
+use App\Http\Requests\EventPostRequest;
 
 class EventController extends Controller
 {
+    /**
+     * @var
+     */
+    protected $user;
+
+    public function __construct()
+    {
+        if (!$this->user = auth('api')->user()) {
+            return response()->json(['error' => 403], 403);
+        }
+    }
+
     /**
      * Display a listing of the resource.
      */
