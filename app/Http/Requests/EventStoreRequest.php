@@ -31,6 +31,7 @@ class EventStoreRequest extends FormRequest
             'hash_message' => 'required',
             'reference' => 'nullable',
             'topic_id' => 'nullable',
+            'topic_sequence_number' => 'nullable',
             'transaction_id' => 'nullable',
             'consensus_timestamp' => 'nullable',
         ];
