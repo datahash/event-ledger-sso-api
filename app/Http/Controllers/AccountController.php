@@ -59,19 +59,21 @@ class AccountController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Account $account)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Account $account)
+    public function update(AccountStoreRequest $request, Account $account)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $account->update($data);
+
+            return ResponseHelper::success('Account updated', $account);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
@@ -79,6 +81,14 @@ class AccountController extends Controller
      */
     public function destroy(Account $account)
     {
-        //
+        try {
+            $account->delete();
+
+            return ResponseHelper::success('Account deleted', null);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 }

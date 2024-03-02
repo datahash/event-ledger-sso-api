@@ -56,26 +56,64 @@ class OrganisationController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Display the specified resource.
+     *
+     * @param $id
+     * @return JsonResponse
      */
-    public function edit(Organisation $organisation)
+    public function show($id)
     {
-        //
+        try {
+            $organisation = Organisation::find($id);
+
+            return ResponseHelper::success('Organisation', $organisation);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
      * Update the specified resource in storage.
+     *
+     * @param OrganisationStoreRequest $request
+     * @param $id
+     * @return JsonResponse
      */
-    public function update(Request $request, Organisation $organisation)
+    public function update(OrganisationStoreRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+
+        try {
+            $organisation = Organisation::find($id);
+            $organisation->update($data);
+
+            return ResponseHelper::success('Success. Organisation updated.', $organisation);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
+     *
+     * @param $id
+     * @return JsonResponse
      */
-    public function destroy(Organisation $organisation)
+    public function destroy($id)
     {
-        //
+        try {
+            $organisation = Organisation::find($id);
+            $organisation->delete();
+
+            return ResponseHelper::success('Organisation deleted', null);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 }
