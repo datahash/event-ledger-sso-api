@@ -30,7 +30,8 @@
         },
         "files": [
             "app/Helpers/ResponseHelper.php",
-            "app/Helpers/HCSHelper.php"
+            "app/Helpers/HCSHelper.php",
+            "app/Helpers/EventHelper.php"
         ]
     },
     "autoload-dev": {

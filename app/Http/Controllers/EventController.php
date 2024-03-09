@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseHelper;
+use App\Helpers\HCSHelper;
 use App\Http\Requests\EventPostRequest;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -22,41 +24,39 @@ class EventController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EventPostRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $data->uuid = Str::uuid()->toString();
+
+        try {
+            # Hash message
+            $data->hash_message = EventsHelper::hashMessage($event);
+
+            # Save event
+            $event = Event::create($data);
+
+            # Attach parent events
+            $event->parents = EventsHelper::attachParents($data, $event);
+
+            # Send hash message to Hedera Consensus Service API
+            HCSHelper::sendConsensusMessage($event);
+
+            return ResponseHelper::success('Event created', $event);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**
      * Display the specified resource.
      */
     public function show(Event $event)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Event $event)
     {
         //
     }

@@ -8,31 +8,31 @@ use Illuminate\Support\Facades\Http;
 
 class HCSHelper
 {
-    public static function sendHashMessage($event)
+    public static function sendConsensusMessage($event)
     {
-        $user = auth('api')->user();
-
         $response = Http::timeout(30)->post(env('HCS_API_MESSAGE_URL'), [
-            'eventType' => 'batch',
-            'eventId' => $event->uuid,
-            'message' => $event->hashgraph->hash_message,
-            'accountId' => $user->account_id
+            'message' => $event->hash_message,
+            'topic_id' => $event->topic_id,
+            'allow_synchronous_consensus' => true,
+            'reference' => $event->uuid
         ]);
 
-        $hcs_response = $response->json();
+        $consensus = $response->json();
 
-        if (isset($hcs_response['_id']))
+        if (isset($consensus['transaction_id']))
         {
-            $event = Event::where('uuid', $hcs_response['event_id'])->first();
+            $url = env('HCS_MIRRORNODE_URL')."/api/v1/topics/%s/messages/%s"
+            $url = sprintf($url, $consensus['topic_id'], $consensus['topic_sequence_number'])
+            $response = Http::get($url)
 
-            $hashgraph = $event->latestHashgraph()->update([
-                'hcs_id'=> $hcs_response['_id'],
-                'topic_hh'=> $hcs_response['topic_hh'],
-                'tx_hash_hh'=> $hcs_response['tx_hash_hh'],
-                'sequence_number_hh'=>$hcs_response['sequence_number_hh'],
-                'running_hash_hh'=> $hcs_response['running_hash_hh'],
-                'consensus_timestamp_hh'=> $hcs_response['consensus_timestamp_hh'],
-            ]);
+            $transaction = $response->json();
+
+            $event->transaction_id = $consensus['transaction_id']
+            $event->topic_sequence_number = $consensus['topic_sequence_number']
+            $event->reference = $consensus['reference']
+            $event->consensus_timestamp = $transaction['consensus_timestamp']
+
+            $event->update();
         }
     }
 }
