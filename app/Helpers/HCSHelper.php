@@ -21,16 +21,16 @@ class HCSHelper
 
         if (isset($consensus['transaction_id']))
         {
-            $url = env('HCS_MIRRORNODE_URL')."/api/v1/topics/%s/messages/%s"
-            $url = sprintf($url, $consensus['topic_id'], $consensus['topic_sequence_number'])
-            $response = Http::get($url)
+            $url = env("HCS_MIRRORNODE_URL")."/api/v1/topics/%s/messages/%s";
+            $url = sprintf($url, $consensus["topic_id"], $consensus["topic_sequence_number"]);
+            $response = Http::get($url);
 
             $transaction = $response->json();
 
-            $event->transaction_id = $consensus['transaction_id']
-            $event->topic_sequence_number = $consensus['topic_sequence_number']
-            $event->reference = $consensus['reference']
-            $event->consensus_timestamp = $transaction['consensus_timestamp']
+            $event->transaction_id = $consensus['transaction_id'];
+            $event->topic_sequence_number = $consensus['topic_sequence_number'];
+            $event->reference = $consensus['reference'];
+            $event->consensus_timestamp = $transaction['consensus_timestamp'];
 
             $event->update();
         }
