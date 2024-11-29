@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'domingobishop@gmail.com',
             'email' => 'domingobishop@gmail.com',
-            'password' => 'NsMZPq2s1BF41Pe2',
-            'account_id' => '1',
-            'organisation_id' => '1',
+            'password' => '41Pe2sMZPN1BFq2s',
+            'account_id' => '1000',
+            'organisation_id' => '5000',
             'user_role_id' => '1',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -28,9 +28,20 @@ class UserSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'chris@datahash.com.au',
             'email' => 'chris@datahash.com.au',
-            'password' => 'NsMZPq2s1BF41Pe2',
-            'account_id' => '1',
-            'organisation_id' => '1',
+            'password' => '41Pe2sMZPN1BFq2s',
+            'account_id' => '1000',
+            'organisation_id' => '5000',
+            'user_role_id' => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+
+        DB::table('users')->insert([
+            'name' => 'info@datahash.com.au',
+            'email' => 'info@datahash.com.au',
+            'password' => '41Pe2sMZPN1BFq2s',
+            'account_id' => '1001',
+            'organisation_id' => '5001',
             'user_role_id' => '1',
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')

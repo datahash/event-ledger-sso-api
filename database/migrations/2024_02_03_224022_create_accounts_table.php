@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
         });
+
+        DB::update("ALTER TABLE accounts AUTO_INCREMENT = 1000;");
     }
 
     /**

@@ -30,9 +30,13 @@ return new class extends Migration
             $table->string('delivery_city')->nullable();
             $table->string('delivery_state')->nullable();
             $table->string('delivery_postcode')->nullable();
+            $table->string('api_client_id')->nullable();
+            $table->string('api_client_secret')->nullable();
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('created_by');
         });
+
+        DB::update("ALTER TABLE accounts AUTO_INCREMENT = 5000;");
     }
 
     /**

@@ -31,3 +31,10 @@ Route::group(['middleware' => 'aws-cognito'], function() {
      Route::get('account', [App\Http\Controllers\AccountController::class, 'index']);
      Route::get('organisation', [App\Http\Controllers\OrganisationController::class, 'index']);
 });
+
+Route::group([
+    'prefix' => 'client',
+    'middleware' => 'with_client_api_key'
+], function () {
+    Route::get('organisation', [App\Http\Controllers\OrganisationClientController::class, 'index']);
+});

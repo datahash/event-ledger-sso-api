@@ -16,9 +16,18 @@ class AccountSeeder extends Seeder
     public function run(): void
     {
         DB::table('accounts')->insert([
-            'id' => 1,
+            'id' => 1000,
             'name' => 'Datahash',
             'email' => 'chris@datahash.com.au',
+            'uuid' => Str::uuid()->toString(),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+        ]);
+
+        DB::table('accounts')->insert([
+            'id' => 1001,
+            'name' => 'Fleurieu',
+            'email' => 'info@datahash.com.au',
             'uuid' => Str::uuid()->toString(),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')

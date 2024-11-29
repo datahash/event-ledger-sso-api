@@ -33,7 +33,10 @@ class Organisation extends Model
         'delivery_postcode',
         'organisation_type_id',
         'organisation_role_id',
+        'api_client_id',
         'account_id',
         'created_by'
     ];
+
+    protected $hidden = ['api_client_secret'];
 }
