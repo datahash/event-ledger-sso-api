@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('reference')->index()->nullable();
             $table->string('topic_id')->nullable();
             $table->string('transaction_id')->nullable();
+            $table->string('consensus_timestamp')->nullable();
             $table->string('explorer_url')->nullable();
         });
     }

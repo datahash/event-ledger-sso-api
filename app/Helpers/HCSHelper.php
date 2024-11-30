@@ -10,29 +10,35 @@ class HCSHelper
 {
     public static function sendConsensusMessage($event)
     {
-        $response = Http::timeout(30)->post(env('HCS_API_MESSAGE_URL'), [
+        $response = Http::timeout(30)->withHeaders([
+                'x-api-key' => env('HCS_API_KEY')
+            ])->post(env('HCS_API_MESSAGE_URL'), [
             'message' => $event->hash_message,
             'topic_id' => $event->topic_id,
             'allow_synchronous_consensus' => true,
-            'reference' => $event->uuid
+            'reference' => $event->reference
         ]);
 
         $consensus = $response->json();
 
-        if (isset($consensus['transaction_id']))
-        {
-            $url = env("HCS_MIRRORNODE_URL")."/api/v1/topics/%s/messages/%s";
-            $url = sprintf($url, $consensus["topic_id"], $consensus["topic_sequence_number"]);
-            $response = Http::get($url);
+        return $consensus['data'];
+    }
 
-            $transaction = $response->json();
+    public static function getTransaction($transaction_id)
+    {
+        $pos = strrpos($transaction_id, '.');
+        $transaction_id = substr_replace($transaction_id, '-', $pos, 1);
+        $transaction_id = str_replace('@', '-', $transaction_id);
 
-            $event->transaction_id = $consensus['transaction_id'];
-            $event->topic_sequence_number = $consensus['topic_sequence_number'];
-            $event->reference = $consensus['reference'];
-            $event->consensus_timestamp = $transaction['consensus_timestamp'];
+        $url = env("HCS_MIRRORNODE_URL")."/api/v1/transactions/%s";
+        $url = sprintf($url, $transaction_id);
 
-            $event->update();
-        }
+        $response = Http::get($url);
+
+        $transaction = $response->json();
+
+        var_dump($transaction);
+
+        return $transaction['transactions'][0];
     }
 }

@@ -13,27 +13,4 @@ class EventStoreRequest extends FormRequest
     {
         return true;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            'uuid' => 'required',
-            'account_id' => 'required',
-            'organisation_id' => 'required',
-            'created_by' => 'required',
-            'message_id' => 'required',
-            'message' => 'required',
-            'hash_message' => 'required',
-            'reference' => 'nullable',
-            'topic_id' => 'nullable',
-            'topic_sequence_number' => 'nullable',
-            'transaction_id' => 'nullable',
-            'consensus_timestamp' => 'nullable',
-        ];
-    }
 }

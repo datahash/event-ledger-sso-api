@@ -6,7 +6,7 @@ use App\Models\Organisation;
 use Illuminate\Support\Facades\Hash;
 use App\Helpers\ResponseHelper;
 
-class EventsHelper
+class EventHelper
 {
     public static function hashMessage($event)
     {

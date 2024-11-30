@@ -24,6 +24,7 @@ class Event extends Model
         'reference',
         'topic_id',
         'transaction_id',
+        'consensus_timestamp',
         'explorer_url'
     ];
 

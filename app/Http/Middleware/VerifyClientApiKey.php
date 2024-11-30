@@ -18,7 +18,7 @@ class VerifyClientApiKey
 
         $apiKeyIsValid = (
             ! empty($apiKey)
-            && $request->header('x-api-secret') == $apiKey
+            && $request->header('x-api-key') == $apiKey
         );
 
         abort_if (! $apiKeyIsValid, 403, 'Access denied');
