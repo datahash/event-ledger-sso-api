@@ -25,6 +25,8 @@ class VerifyClientApiKey
 
         session()->put('organisation_id', $organisation->id);
         session()->put('account_id', $organisation->account_id);
+        session()->put('user_id', $organisation->created_by);
+        session()->put('topic_id', $organisation->topic_id);
 
         return $next($request);
     }

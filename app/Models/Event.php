@@ -19,13 +19,12 @@ class Event extends Model
         'account_id',
         'organisation_id',
         'created_by',
-        'message_id',
         'message',
         'hash_message',
         'reference',
         'topic_id',
         'transaction_id',
-        'consensus_timestamp'
+        'explorer_url'
     ];
 
     /**

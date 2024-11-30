@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
+            'id' => 1,
             'name' => 'domingobishop@gmail.com',
             'email' => 'domingobishop@gmail.com',
             'password' => '41Pe2sMZPN1BFq2s',
@@ -26,6 +27,7 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'id' => 2,
             'name' => 'chris@datahash.com.au',
             'email' => 'chris@datahash.com.au',
             'password' => '41Pe2sMZPN1BFq2s',
@@ -37,6 +39,7 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
+            'id' => 3,
             'name' => 'info@datahash.com.au',
             'email' => 'info@datahash.com.au',
             'password' => '41Pe2sMZPN1BFq2s',

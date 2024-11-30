@@ -18,14 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('organisation_id');
             $table->unsignedBigInteger('created_by');
-            $table->unsignedBigInteger('message_id');
             $table->json('message');
             $table->string('hash_message');
             $table->string('reference')->index()->nullable();
             $table->string('topic_id')->nullable();
-            $table->string('topic_sequence_number')->nullable();
             $table->string('transaction_id')->nullable();
-            $table->string('consensus_timestamp')->nullable();
+            $table->string('explorer_url')->nullable();
         });
     }
 

@@ -15,7 +15,7 @@ class EventController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(EventPostRequest $request)
+    public function store($request)
     {
         $data->uuid = Str::uuid()->toString();
 

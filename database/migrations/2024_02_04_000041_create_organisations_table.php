@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('delivery_postcode')->nullable();
             $table->string('api_client_id')->nullable();
             $table->string('api_client_secret')->nullable();
+            $table->string('topic_id')->nullable();
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('created_by');
         });

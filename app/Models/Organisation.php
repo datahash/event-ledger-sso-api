@@ -35,6 +35,7 @@ class Organisation extends Model
         'organisation_role_id',
         'api_client_id',
         'account_id',
+        'topic_id',
         'created_by'
     ];
 
