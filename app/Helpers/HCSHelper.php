@@ -37,8 +37,6 @@ class HCSHelper
 
         $transaction = $response->json();
 
-        var_dump($transaction);
-
         return $transaction['transactions'][0];
     }
 }

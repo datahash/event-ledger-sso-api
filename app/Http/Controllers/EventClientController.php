@@ -52,10 +52,27 @@ class EventClientController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param $id
+     * @return JsonResponse
      */
-    public function show(Event $event)
+    public function show($id)
     {
-        //
+        try {
+            $event = Event::where('uuid', $id)->first();
+
+            if ($event->consensus_timestamp == null) {
+                $transaction = HCSHelper::getTransaction($event->transaction_id);
+                $event->consensus_timestamp = $transaction['consensus_timestamp'];
+                $event->update();
+            }
+
+            return ResponseHelper::success('Event', $event);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
     }
 
     /**

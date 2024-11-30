@@ -38,4 +38,5 @@ Route::group([
 ], function () {
     Route::get('organisation', [App\Http\Controllers\OrganisationClientController::class, 'index']);
     Route::post('event', [App\Http\Controllers\EventClientController::class, 'store']);
+    Route::get('event/{id}', [App\Http\Controllers\EventClientController::class, 'show']);
 });
