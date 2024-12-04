@@ -19,6 +19,8 @@ class Event extends Model
         'account_id',
         'organisation_id',
         'created_by',
+        'event_type',
+        'foreign_id',
         'message',
         'hash_message',
         'reference',

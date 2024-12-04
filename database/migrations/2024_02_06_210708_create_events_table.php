@@ -18,6 +18,8 @@ return new class extends Migration
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('organisation_id');
             $table->unsignedBigInteger('created_by');
+            $table->string('event_type')->nullable();
+            $table->string('foreign_id')->nullable();
             $table->json('message');
             $table->string('hash_message');
             $table->string('reference')->index()->nullable();

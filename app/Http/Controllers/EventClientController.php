@@ -18,6 +18,7 @@ class EventClientController extends Controller
     public function store(Request $request)
     {
         try {
+            $content = json_decode($request->getContent(), true);
             $event = new Event;
 
             $event->uuid = Str::uuid()->toString();
@@ -25,8 +26,15 @@ class EventClientController extends Controller
             $event->organisation_id = session()->get('organisation_id');
             $event->created_by = session()->get('user_id');
             $event->topic_id = session()->get('topic_id');
+            $event->event_type = $content['event_type'];
             $event->message = json_encode($request->getContent());
             $event->reference = session()->get('account_id').'.'.session()->get('organisation_id').'/'.$event->uuid;
+
+            foreach ($content as $key => $value) {
+                if (str_contains($key, 'foreign_event_')) {
+                    $event->foreign_id = $content[$key];
+                }
+            }
 
             # Hash message
             $event->hash_message = EventHelper::hashMessage($event);
