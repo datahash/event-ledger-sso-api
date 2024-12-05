@@ -14,4 +14,15 @@ class EventHelper
 
         return $hash_message;
     }
+
+    public static function attachParents($parent_ids, $event)
+    {
+        if (count($parent_ids) > 0)
+        {
+            $parents = Event::find($data['parent_ids']);
+            $event->source()->attach($parents);
+            return $parents;
+        }
+        return null;
+    }
 }
