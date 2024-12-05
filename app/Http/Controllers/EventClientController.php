@@ -27,8 +27,8 @@ class EventClientController extends Controller
             $event->created_by = session()->get('user_id');
             $event->topic_id = session()->get('topic_id');
             $event->event_type = $content['event_type'];
-            $event->message = json_encode($request->getContent());
-            $event->reference = session()->get('account_id').'.'.session()->get('organisation_id').'/'.$event->uuid;
+            $event->message = $request->getContent();
+            $event->reference = session()->get('account_id').'/'.session()->get('organisation_id').'/'.$event->uuid;
 
             foreach ($content as $key => $value) {
                 if (str_contains($key, 'foreign_event_')) {
