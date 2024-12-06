@@ -78,7 +78,7 @@ class EventClientController extends Controller
         try {
             $event = Event::where('uuid', $id)->with('source')->first();
 
-            if (isset($event->consensus_timestamp) && $event->consensus_timestamp == null) {
+            if ($event->consensus_timestamp == null) {
                 $transaction = HCSHelper::getTransaction($event->transaction_id);
                 $event->consensus_timestamp = $transaction['consensus_timestamp'];
                 $event->update();
