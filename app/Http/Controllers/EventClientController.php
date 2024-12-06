@@ -32,7 +32,7 @@ class EventClientController extends Controller
 
             foreach ($content as $key => $value) {
                 if (str_contains($key, 'foreign_event_')) {
-                    $event->foreign_id = $content[$key];
+                    $event->foreign_id = $value;
                 }
             }
 
@@ -49,6 +49,15 @@ class EventClientController extends Controller
 
             # Save event
             $event->save();
+
+            if (isset($content['source'])) {
+                foreach ($content['source'] as $key => $value) {
+                     if (str_contains($key, 'foreign_event_')) {
+                        $parent = Event::where('foreign_id', $value)->first();
+                        $event->source()->attach($parent);
+                    }
+                }
+            }
 
             return ResponseHelper::success('Event created', $event);
         }
@@ -67,9 +76,9 @@ class EventClientController extends Controller
     public function show($id)
     {
         try {
-            $event = Event::where('uuid', $id)->first();
+            $event = Event::where('uuid', $id)->with('source')->first();
 
-            if ($event->consensus_timestamp == null) {
+            if (isset($event->consensus_timestamp) && $event->consensus_timestamp == null) {
                 $transaction = HCSHelper::getTransaction($event->transaction_id);
                 $event->consensus_timestamp = $transaction['consensus_timestamp'];
                 $event->update();
