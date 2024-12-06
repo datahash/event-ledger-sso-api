@@ -37,7 +37,7 @@ class EventClientController extends Controller
             }
 
             # Hash message
-            $event->hash_message = EventHelper::hashMessage($request->getContent());
+            $event->hash_message = EventHelper::hashMessage($event);
 
             # Send hash message to Hedera Consensus Service API
             $consensus = HCSHelper::sendConsensusMessage($event);
