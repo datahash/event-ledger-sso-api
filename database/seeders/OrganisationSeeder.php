@@ -22,8 +22,8 @@ class OrganisationSeeder extends Seeder
             'name' => 'Datahash',
             'email' => 'chris@datahash.com.au',
             'topic_id' => '0.0.3352476',
-            'api_client_id' => 'GDHWEVPQEMYSRGFK',
-            'api_client_secret' => 'nRQGKLuemSkQzXzV9laUTUGZCe8HyGdO',
+            'api_client_id' => env('DH_API_CLIENT_KEY', false),
+            'api_client_secret' => env('DH_API_CLIENT_SECRET', false),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
@@ -35,8 +35,8 @@ class OrganisationSeeder extends Seeder
             'name' => 'Fleurieu',
             'email' => 'info@datahash.com.au',
             'topic_id' => '0.0.5193390',
-            'api_client_id' => 'ZNBUDFAZRYBXJOTN',
-            'api_client_secret' => 'ZTuyCkoMZvQm6Z6vf9UXmoB9E8c1WNof',
+            'api_client_id' => env('FL_API_CLIENT_KEY', false),
+            'api_client_secret' => env('FL_API_CLIENT_SECRET', false),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
