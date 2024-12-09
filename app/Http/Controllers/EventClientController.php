@@ -92,6 +92,25 @@ class EventClientController extends Controller
         }
     }
 
+/**
+     * Display the specified resources.
+     *
+     * @param $type
+     * @return JsonResponse
+     */
+    public function type($type, $date)
+    {
+        try {
+            $event = Event::where('event_type', $type)->whereDate('created_at', date($date))->get();
+
+            return ResponseHelper::success('Event', $event);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+
     /**
      * Update the specified resource in storage.
      */
