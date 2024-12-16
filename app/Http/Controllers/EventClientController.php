@@ -52,6 +52,10 @@ class EventClientController extends Controller
                 }
             }
 
+            if ($event->foreign_id == null && $content['event_type'] == 'pasteurisation') {
+                $event->foreign_id = $content['db_primary_key'];
+            }
+
             # Hash message
             $event->hash_message = EventHelper::hashMessage($event);
 
