@@ -13,6 +13,22 @@ use Illuminate\Support\Str;
 class EventClientController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        try {
+            $data = Event::where('organisation_id', session()->get('organisation_id'))->get();
+
+            return ResponseHelper::success('All Events', $data);
+        }
+        catch(\Exception $e) {
+
+            return ResponseHelper::error($e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)

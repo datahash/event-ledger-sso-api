@@ -37,6 +37,7 @@ Route::group([
     'middleware' => 'with_client_api_key'
 ], function () {
     Route::get('organisation', [App\Http\Controllers\OrganisationClientController::class, 'index']);
+    Route::get('event', [App\Http\Controllers\EventClientController::class, 'index']);
     Route::post('event', [App\Http\Controllers\EventClientController::class, 'store']);
     Route::get('event/type/{type}/{date}', [App\Http\Controllers\EventClientController::class, 'type']);
     Route::get('event/{id}', [App\Http\Controllers\EventClientController::class, 'show']);
